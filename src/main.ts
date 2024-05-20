@@ -37,6 +37,7 @@ async function bootstrap() {
       operationsSorter: 'alpha',
       persistAuthorization: true,
     },
+    customCss: '.swagger-ui section.models { visibility: hidden;}',
     customSiteTitle: 'Project API Document',
   });
   const port: number = configService.get<number>('PORT') || 3000;
