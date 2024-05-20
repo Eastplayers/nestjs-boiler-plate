@@ -37,6 +37,7 @@ async function bootstrap() {
       operationsSorter: 'alpha',
       persistAuthorization: true,
     },
+    customSiteTitle: 'Project API Document',
   });
   const port: number = configService.get<number>('PORT') || 3000;
   await app.listen(port, () => console.log('Listening on port: ', port));
