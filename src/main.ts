@@ -22,7 +22,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .addBearerAuth()
     .addServer('/')
-    .setTitle('Rival Ambassador API Document')
+    .setTitle('API Document')
     .setDescription('API description')
     .setVersion('1.0')
     // .addTag('nope')
