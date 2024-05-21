@@ -20,6 +20,18 @@ if echo "$1" | grep -q '[^a-zA-Z0-9_ ]'; then
   exit 1
 fi
 
+# Function to convert a word to its plural form
+pluralize() {
+  local word="$1"
+  if [[ "$word" =~ [sxz]$ ]] || [[ "$word" =~ [^aeioudgkprt]h$ ]]; then
+    echo "${word}es"
+  elif [[ "$word" =~ [^aeiou]y$ ]]; then
+    echo "${word%y}ies"
+  else
+    echo "${word}s"
+  fi
+}
+
 # Convert the argument to lower case and replace spaces with underscores
 arg_lower=$(echo "$1" | tr '[:upper:]' '[:lower:]' | tr ' ' '_')
 
@@ -28,9 +40,12 @@ arg_camel=$(echo "$arg_lower" | awk -F_ '{for (i=1; i<=NF; i++) { printf toupper
 
 arg_kebab=arg_lower=$(echo "$1" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
 
+# Get the plural form of the argument
+arg_plural=$(pluralize "$arg_lower")
+
 # Create the new model file
 cp ./src/models/boiler_plate.model.ts "./src/models/${arg_lower}.model.ts"
-sed -i "" "s/boiler_plates/${arg_lower}s/g" "./src/models/${arg_lower}.model.ts"
+sed -i "" "s/boiler_plates/${arg_plural}/g" "./src/models/${arg_lower}.model.ts"
 sed -i "" "s/BoilerPlateModel/${arg_camel}Model/g" "./src/models/${arg_lower}.model.ts"
 
 # Copy the boiler_plate directory to the new module directory
@@ -46,7 +61,7 @@ mv "./src/modules/${arg_lower}/boiler_plate.module.ts" "./src/modules/${arg_lowe
 sed -i "" "s/BoilerPlate/${arg_camel}/g" ./src/modules/${arg_lower}/*
 sed -i "" "s/Boiler Plate/${arg_camel}/g" ./src/modules/${arg_lower}/*
 sed -i "" "s/boiler_plate/${arg_lower}/g" ./src/modules/${arg_lower}/*
-sed -i "" "s/boiler_plates/${arg_lower}s/g" ./src/modules/${arg_lower}/*
+sed -i "" "s/boiler_plates/${arg_plural}/g" ./src/modules/${arg_lower}/*
 
 # Update the app.module.ts file to include the new module import
 # Find the line number of the last import statement
