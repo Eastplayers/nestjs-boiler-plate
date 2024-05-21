@@ -38,7 +38,7 @@ arg_lower=$(echo "$1" | tr '[:upper:]' '[:lower:]' | tr ' ' '_')
 # Convert the argument to camel case (e.g., "bonus_hunt" becomes "BonusHunt")
 arg_camel=$(echo "$arg_lower" | awk -F_ '{for (i=1; i<=NF; i++) { printf toupper(substr($i,1,1)) tolower(substr($i,2)) }}')
 
-arg_kebab=arg_lower=$(echo "$1" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+arg_kebab=$(echo "$1" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
 
 # Get the plural form of the argument
 arg_plural=$(pluralize "$arg_lower")
