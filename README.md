@@ -21,6 +21,19 @@ $ yarn run start:dev
 $ yarn run start:prod
 ```
 
+## Running the crud generator script
+```bash
+$ bash crud.sh <module_name>
+```
+Example:
+```bash
+$ bash crud.sh cateogry
+
+$ bash crud.sh product
+
+$ bash crud.sh "product category"
+```
+
 ## Stay in touch
 
 - Author - Eastplayers
