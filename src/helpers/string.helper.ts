@@ -71,6 +71,8 @@ export function removeVietnameseTones(str) {
 
 export const logYellow = (message: string) => `\x1b[33m${message}\x1b[0m`;
 export const logRed = (message: string) => `\x1b[91m${message}\x1b[0m`;
+export const logGreen = (message: string) => `\x1b[32m${message}\x1b[0m`;
+export const logBlue = (message: string) => `\x1b[34m${message}\x1b[0m`;
 
 // Parse name store from url shopify
 export function parseNameStoreFromUrl(url: string): string {

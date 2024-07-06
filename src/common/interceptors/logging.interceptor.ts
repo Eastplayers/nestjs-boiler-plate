@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { catchError, map, throwError } from 'rxjs';
-import { logRed, logYellow } from '../../helpers/string.helper';
+import { catchError, map } from 'rxjs';
+import { logGreen, logYellow } from '../../helpers/string.helper';
 import { Response, Request } from 'express';
 import { format } from 'date-fns';
 export interface ResponseType<T> {
@@ -39,7 +39,7 @@ export class LoggingInterceptor<T>
     return next.handle().pipe(
       map((data: T): ResponseType<T> => {
         if (url !== '/api/app/health-check') {
-          console.log('STATUS CODE: ' + statusCode);
+          console.log('[STATUS CODE]: ' + logGreen(statusCode + ''));
         }
         return {
           success: true,
@@ -47,10 +47,6 @@ export class LoggingInterceptor<T>
         };
       }),
       catchError((error) => {
-        console.log(
-          'STATUS CODE: ' + error.statusCode ? error.statusCode : 500,
-        );
-        console.error(error);
         throw error;
       }),
     );
