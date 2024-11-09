@@ -6,16 +6,28 @@ import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './common/exceptions/http.exception';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { AllExceptionFilter } from './common/exceptions/all.exception';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: ['verbose', 'debug', 'log', 'error'],
     // rawBody: true,
   });
 
   const configService: ConfigService = app.get(ConfigService);
   app.useGlobalFilters(new AllExceptionFilter(), new HttpExceptionFilter());
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      disableErrorMessages: false,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      forbidUnknownValues: true,
+      transform: true,
+    }),
+  );
+  app.useBodyParser('json', {
+    limit: '1mb',
+  });
   app.useGlobalInterceptors(new LoggingInterceptor());
   app.setGlobalPrefix('/api');
   app.enableCors();
